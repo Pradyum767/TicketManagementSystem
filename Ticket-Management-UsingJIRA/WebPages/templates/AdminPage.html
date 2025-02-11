@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html>
+<style>
+  input[type=text], select {
+  width: 100%;
+  padding: 8px 15px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+input[type=submit]:hover {
+  background-color:rgb(0, 0, 0,0.2);
+}
+</style>
+<head>
+
+    <title>Ticket Management</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css>
+    
+
+    <link rel="stylesheet" href="/stuff/styles.css">
+
+</head>
+
+<body>
+
+ 
+
+<!-- Vertical navbar -->
+
+<div class="vertical-nav bg-white" id="sidebar">
+
+  <div class="py-4 px-3 mb-4 bg-light">
+
+    <div class="media d-flex align-items-center">
+
+      <img loading="lazy" src={{.picture}} alt="..." width="80" height="80" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+
+      <div class="media-body">
+
+        <p style="font-size:12px ;"class="m-0">{{.email}}</p>
+
+        <p class="font-weight-normal text-muted mb-0">Admin</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+ 
+
+  <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Dashboard</p>
+
+ 
+
+  <ul class="nav flex-column bg-white mb-0">
+
+    <li class="nav-item">
+
+      <a href="AdminPage.html" class="nav-link text-dark bg-light">
+
+                <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
+
+                Home
+
+            </a>
+
+    </li>
+
+    <li class="nav-item">
+      <div class="dropdown show">
+        <a class="nav-link text-dark" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-address-card mr-3 text-primary fa-fw"></i> All Tickets
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#" onclick="tickets('Pending');">Pending</a>
+          <a class="dropdown-item" href="#" onclick="tickets('In progress')">In Progress</a>
+          <a class="dropdown-item" href="#" onclick="tickets('Resolved');">Resolved</a>
+          <a class="dropdown-item" href="#" onclick="tickets('Closed');">Closed</a>
+        </div>
+      </div>
+
+      <!-- <a href="#" onclick="tickets();" class="nav-link text-dark">
+
+                <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
+
+                ALL Ticket
+
+            </a> -->
+
+    </li>
+
+   
+
+    <li class="nav-item">
+
+      <a href="/logout" class="nav-link text-dark">
+
+                <i class="fa fa-lock-o mr-3 text-primary fa-fw"></i>
+
+                Logout
+
+            </a>
+
+    </li>
+
+  </ul>
+
+ 
+
+</div>
+
+<!-- End vertical navbar -->
+
+ 
+
+<!-- Page content holder -->
+
+<div class="page-content p-5" id="content">
+
+  <!-- Toggle button -->
+
+ 
+
+  <nav class="navbar navbar-light ">
+
+    <div class="container-fluid">
+
+        <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold"></small></button>
+
+      <form class="d-flex" onsubmit="getTicket(0); return false;">
+      
+        <input class="form-control me-2" type="search" id="searching" placeholder="TicketID" aria-label="Search" >
+
+        <button class="btn btn-outline-success" id="clear" type="submit" >Search</button>
+
+      </form>
+
+    </div>
+
+  </nav>
+
+        <!-- Demo content -->
+
+ 
+
+  <h2 class="display-4 text-white">Ticket Management</h2>
+
+  <p class="lead text-white mb-0"></p> 
+
+  <div class="separator"></div>
+
+    <div  >
+      <table class="table table-hover" id="tickettable" >
+        <thead>
+          <tbody>
+          <tr>
+            <th scope="col" id="th1">&nbsp;</th>
+            <th scope="col" id="th2">&nbsp;</th>
+            <th scope="col" id="th3">&nbsp;</th>
+            <th scope="col" id="th4">&nbsp;</th>
+            
+          </tr>
+          </tbody>
+        </thead>
+      <div id="list">
+         
+      </div>
+      </table>
+        
+      <div id="Message">
+
+      </div>
+      <div id="ticket">
+
+      </div>
+ 
+   
+    </div>
+
+   
+
+ 
+
+      
+
+      
+
+    
+
+  </div>
+
+ 
+
+</div>
+
+ 
+
+  
+
+<!-- End demo content -->
+
+ 
+
+<script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+
+<script src=https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script src="/stuff/routes.js"></script>
+<script>
+  function tickets(x){
+    console.log(x)
+    $( "Message" ).remove();
+    $( "td" ).remove();
+    $( "list" ).remove();
+    $( "ticket" ).remove();
+
+    
+   
+    var id=document.querySelector("#list")
+    var table =document.getElementById("tickettable")
+    var i=0
+    
+  fetch("/allticket?status="+x,{method:"GET"})
+  .then(response=>response.json())
+   .then(list=>{  if (list!=null ){
+    if(Array.isArray(list)){
+    document.getElementById('th1').innerHTML="Sl.No"
+    document.getElementById('th2').innerHTML="Ticket_ID"
+    document.getElementById('th3').innerHTML="Issue Raised"
+    document.getElementById('th4').innerHTML="Status"
+    document.getElementById('Message').innerHTML=""
+    document.getElementById('ticket').innerHTML=""
+    list.forEach(element => {
+     var newDiv =document.createElement('div')
+     newDiv.className='rows'
+     i=i+1
+     var row =table.insertRow(i);
+     var cel1=row.insertCell(0);
+     cel1.innerHTML="<p style="+"'font-weight:25px'"+">"+i+"</p>"
+     var cel2=row.insertCell(1);
+     cel2.innerHTML="<a href="+"'#'"+"onclick="+"'getTicket("+element["id"]+")'"+" style='color:black; font-weight:20px;'"+">"+element["id"]+"</a>"
+     var cel3=row.insertCell(2);
+     cel3.innerHTML="<p style='font-weight:25px'>"+element["message"]+"</p>"
+     var cel4=row.insertCell(3)
+     cel4.innerHTML="<p style="+"'font-weight:25px'"+">"+element["status"]+"</p>"
+     id.appendChild(newDiv)} );
+    } else {
+      console.log(list);
+    document.getElementById('th1').innerHTML=""
+    document.getElementById('th2').innerHTML=""
+    document.getElementById('th3').innerHTML=""
+    document.getElementById('th4').innerHTML=""
+    document.getElementById("Message").innerHTML="<h3>"+list.message+"by clicking <a href='http://localhost:8080'>here</a></h3>"
+
+    }
+     
+   }else {
+     console.log(list);
+    document.getElementById('th1').innerHTML=""
+    document.getElementById('th2').innerHTML=""
+    document.getElementById('th3').innerHTML=""
+    document.getElementById('th4').innerHTML=""
+    document.getElementById("Message").innerHTML="<h3>NO Tickets Found</h3>"
+    }})}
+   
+
+
+   function getTicket(x){
+    var div = document.getElementById('ticket');
+    $( "td" ).remove();
+    if (x==0){
+     var id=document.getElementById("searching").value
+      }else{
+        var id= x;console.log(id)}
+    document.getElementById('th1').innerHTML=""
+    document.getElementById('th2').innerHTML=""
+    document.getElementById('th3').innerHTML=""
+    document.getElementById('th4').innerHTML=""
+     fetch("/getticket?id="+id,{method:"GET"})
+     .then(response=>response.json())
+      .then(data=>{ 
+    
+     if(data["status"]=="Closed")
+     {
+      div.innerHTML="<form action='/adminResponse' method='POST'><label class='font-weight-normal'><h5>TicketId :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'   readonly='readonly'  name='id' value="+data["id"]+"><br><label class='font-weight-normal'><br><h5>Issue :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'  readonly='readonly' value='"+data["message"]+"'><br><label class='font-weight-normal'><h5>Email:</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'    readonly='readonly' value='"+data["email"]+"'><br><label class='font-weight-normal'><h5>Status:</h5></label><br><input name='status'  readonly='readonly' type ='text' style='background-color:rgb(0, 0, 0,0);' read value='Closed'><br><label class='font-weight-normal'><h5>Response:</h5></label> <input type='text' style='background-color:rgb(0, 0, 0,0);' name='response' id='resp' readonly='readonly' value="+data["response"]+" ></input><br><label class='font-weight-normal'><h5>Generation Time:</h5></label><br><input type='text' style='background-color:rgb(0, 0, 0,0);'   readonly='readonly' value='"+data["time"]+"'><br><label class='font-weight-normal'><h5>Admin Contact:</h5></label><input style='background-color:rgb(0, 0, 0,0);' type='text' readonly='readonly' name='name' value='"+data["admincontact"]+"'><br></form>"
+     } else if(data["status"]=="In progress"){
+     
+      div.innerHTML="<form action='/adminResponse' method='POST'><label class='font-weight-normal'><h5>TicketId :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'   readonly='readonly'  name='id' value="+data["id"]+"><br><label class='font-weight-normal'><br><h5>Issue :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'  readonly='readonly' value='"+data["message"]+"'><br><label class='font-weight-normal'><h5>Email:</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'    readonly='readonly' value='"+data["email"]+"'><br><label class='font-weight-normal'><h5>Status:</h5></label><br><select name='status' style='background-color:rgb(0, 0, 0,0);'><option value="+data["status"]+" selected  hidden>"+data["status"]+"</option><option value='Pending' class='form-control' type='text'>Pending</option><option value='In progress' style='background-color:rgb(0, 0, 0,0.2);'type='text'>In Progress</option><option value='Resolve this issue' style='background-color:rgb(0, 0, 0,0.2);'type='text'>Resolve this Issue</option></select><br><label class='font-weight-normal'><h5>Response:</h5></label> <input type='text' style='background-color:rgb(0, 0, 0,0);' name='response' id='resp' value='"+data["response"]+"' ></input><br><label class='font-weight-normal'><h5>Generation Time:</h5></label><br><input type='text' style='background-color:rgb(0, 0, 0,0);'   readonly='readonly' value='"+data["time"]+"'><br><label class='font-weight-normal'><h5>Admin Contact:</h5></label><input style='background-color:rgb(0, 0, 0,0);' type='text'  name='name' value='"+data["admincontact"]+"'><br><input type='submit' class='btn btn-primary'></form>"
+     }else if(data["status"]=="Resolved"){
+     div.innerHTML="<form action='/adminResponse' method='POST'><label class='font-weight-normal'><h5>TicketId :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'   readonly='readonly'  name='id' value="+data["id"]+"><br><label class='font-weight-normal'><br><h5>Issue :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'  readonly='readonly' value='"+data["message"]+"'><br><label class='font-weight-normal'><h5>Email:</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'    readonly='readonly' value='"+data["email"]+"'><br><label class='font-weight-normal'><h5>Status:</h5></label><br><select name='status' style='background-color:rgb(0, 0, 0,0);'><option value="+data["status"]+" selected  hidden>"+data["status"]+"</option><option value='In progress' style='background-color:rgb(0, 0, 0,0.2);'type='text'>In Progress</option><option value='Resolve this issue' style='background-color:rgb(0, 0, 0,0.2);'type='text'>Resolve this Issue</option></select><br><label class='font-weight-normal'><h5>Response:</h5></label> <input type='text' style='background-color:rgb(0, 0, 0,0);' name='response' id='resp' value='"+data["response"]+"' ></input><br><label class='font-weight-normal'><h5>Generation Time:</h5></label><br><input type='text' style='background-color:rgb(0, 0, 0,0);'   readonly='readonly' value='"+data["time"]+"'><br><label class='font-weight-normal'><h5>Admin Contact:</h5></label><input style='background-color:rgb(0, 0, 0,0);' type='text'  name='name' value='"+data["admincontact"]+"'><br><input type='submit' class='btn btn-primary'></form>"
+     }else{
+      div.innerHTML="<form action='/adminResponse' method='POST'><label class='font-weight-normal'><h5>TicketId :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'   readonly='readonly'  name='id' value="+data["id"]+"><br><label class='font-weight-normal'><br><h5>Issue :</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'  readonly='readonly' value='"+data["message"]+"'><br><label class='font-weight-normal'><h5>Email:</h5></label><input style='background-color:rgb(0, 0, 0,0);'type='text'    readonly='readonly' value='"+data["email"]+"'><br><label class='font-weight-normal'><h5>Status:</h5></label><br><select name='status' style='background-color:rgb(0, 0, 0,0);'><option value="+data["status"]+" selected  hidden>"+data["status"]+"</option><option value='Pending' class='form-control' type='text'>Pending</option><option value='In progress' style='background-color:rgb(0, 0, 0,0.2);'type='text'>In Progress</option><option value='Resolve this issue' style='background-color:rgb(0, 0, 0,0.2);'type='text'>Resolve this Issue</option></select><br><label class='font-weight-normal'><h5>Response:</h5></label> <input type='text' style='background-color:rgb(0, 0, 0,0);' name='response' id='resp' value='"+data["response"]+"' ></input><br><label class='font-weight-normal'><h5>Generation Time:</h5></label><br><input type='text' style='background-color:rgb(0, 0, 0,0);'   readonly='readonly' value='"+data["time"]+"'><br><label class='font-weight-normal'><h5>Admin Contact:</h5></label><input style='background-color:rgb(0, 0, 0,0);' type='text'  name='name' value='"+data["admincontact"]+"'><br><input type='submit' class='btn btn-primary'></form>"
+
+     }
+    })
+     
+      
+   }
+  
+</script>
+
+</body>
+
+</html>
